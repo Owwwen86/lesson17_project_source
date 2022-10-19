@@ -56,14 +56,18 @@ class MovieView(Resource):
         except Exception as e:
             print(e)
             db.session.rollback()
-            return e, 200
+            return e, 405
 
 
 @movies_ns.route("/<int:mid>")
 class MovieView(Resource):
     def get(self, mid):
-        query = Movie.query.get(mid)
-        return movie_schema.dump(query), 200
+        try:
+            query = Movie.query.get(mid)
+            return movie_schema.dump(query), 200
+        except Exception as e:
+            print(e)
+            return e, 404
 
     def put(self, mid):
         data = request.json
@@ -78,7 +82,7 @@ class MovieView(Resource):
         except Exception as e:
             print(e)
             db.session.rollback()
-            return e, 200
+            return e, 404
 
     def delete(self, mid):
         data = request.json
@@ -89,7 +93,7 @@ class MovieView(Resource):
         except Exception as e:
             print(e)
             db.session.rollback()
-            return e, 200
+            return e, 404
 
 
 @director_ns.route("/")
@@ -117,14 +121,19 @@ class DirectorView(Resource):
         except Exception as e:
             print(e)
             db.session.rollback()
-            return e, 200
+            return e, 405
 
 
 @director_ns.route("/<int:did>")
 class DirectorView(Resource):
     def get(self, did):
-        query = Director.query.get(did)
-        return director_schema.dump(query), 200
+        try:
+            query = Director.query.get(did)
+            return director_schema.dump(query), 200
+
+        except Exception as e:
+            print(e)
+            return e, 404
 
     def put(self, did):
         data = request.json
@@ -138,7 +147,7 @@ class DirectorView(Resource):
         except Exception as e:
             print(e)
             db.session.rollback()
-            return e, 200
+            return e, 404
 
     def delete(self, did):
         data = request.json
@@ -149,7 +158,7 @@ class DirectorView(Resource):
         except Exception as e:
             print(e)
             db.session.rollback()
-            return e, 200
+            return e, 404
 
 
 @genre_ns.route("/")
@@ -177,14 +186,18 @@ class GenreView(Resource):
         except Exception as e:
             print(e)
             db.session.rollback()
-            return e, 200
+            return e, 405
 
 
 @genre_ns.route("/<int:gid>")
 class GenreView(Resource):
     def get(self, gid):
-        query = Genre.query.get(gid)
-        return genre_schema.dump(query), 200
+        try:
+            query = Genre.query.get(gid)
+            return genre_schema.dump(query), 200
+        except Exception as e:
+            print(e)
+            return e, 404
 
     def put(self, gid):
         data = request.json
@@ -198,7 +211,7 @@ class GenreView(Resource):
         except Exception as e:
             print(e)
             db.session.rollback()
-            return e, 200
+            return e, 404
 
     def delete(self, gid):
         data = request.json
@@ -209,7 +222,7 @@ class GenreView(Resource):
         except Exception as e:
             print(e)
             db.session.rollback()
-            return e, 200
+            return e, 404
 
 
 if __name__ == '__main__':
